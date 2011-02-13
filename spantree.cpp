@@ -44,7 +44,7 @@ void readInput()
       if (oRoad[i].length == oRoad[i+1].length)
       {
         j = i;
-        while(oRoad[i].length == oRoad[i+1].length) i++;
+        while(i < numRoad-1 && oRoad[i].length == oRoad[i+1].length) i++;
 
         qSort2(oRoad, j, i);
         minimum = false;
@@ -55,7 +55,7 @@ void readInput()
             if (oRoad[k].cityA == oRoad[k+1].cityA)
             {
               l = k;
-              while (oRoad[k].cityA == oRoad[k+1].cityA) k++;
+              while (k < i && oRoad[k].cityA == oRoad[k+1].cityA) k++;
 
               qSort3(oRoad, l, k);
               maximum = false;
@@ -120,7 +120,7 @@ void kruskal(roads *a, int numofroads, int numofcity)
         if (roots.getRSize(i) == roots.getRSize(i+1))
         {
           int j = i;
-          while (roots.getRSize(i) == roots.getRSize(i+1)) i++;
+          while (i < roots.listsize()-1 && roots.getRSize(i) == roots.getRSize(i+1)) i++;
           
           roots.qSort2(j, i);
           roots.setFlag(false);

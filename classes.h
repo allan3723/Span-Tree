@@ -129,7 +129,7 @@ class linkedlist // + graph
 
   void printRSize()
   {
-    temp = new node<T>;
+//    temp = new node<T>;
     temp = head;
     while (temp != NULL)
     {
@@ -145,7 +145,7 @@ class linkedlist // + graph
     if (size == 0)
       return false;
 
-    temp = new node<T>;
+//    temp = new node<T>;
     temp = head;
 
     while (temp != NULL)
@@ -164,7 +164,7 @@ class linkedlist // + graph
 
   T get(int pos) // <---------------------
   {
-    temp = new node<T>;
+//    temp = new node<T>;
     temp = head;
 
     for (int i = 0; i < pos; i++)
@@ -177,7 +177,7 @@ class linkedlist // + graph
 
   int getRSize(int pos) // <----------------------
   {
-    temp = new node<T>;
+//    temp = new node<T>;
     temp = head;
     for (int i = 0; i < pos; i++)
       temp = temp->next;
@@ -188,7 +188,7 @@ class linkedlist // + graph
 
   int getRRoot(int pos) // <---------------------------
   {
-    temp = new node<T>;
+//    temp = new node<T>;
     temp = head;
     for (int i = 0; i < pos; i++)
       temp = temp->next;
@@ -198,8 +198,8 @@ class linkedlist // + graph
 
   void swapR(int i, int j) //specifically for region <-------------------
   {
-    node<region>* node2 = new node<T>;
-    node<region>* node1 = new node<T>;
+    node<region>* node2;
+    node<region>* node1;// = new node<T>;
     temp = new node<T>;
     node1 = head;
     for (int k = 0; k < i; k++)
@@ -262,8 +262,8 @@ class linkedlist // + graph
 
       do
       {
-        do i++; while(getRRoot(i) < pivot && i < right);
-        do j--; while(getRRoot(j) > pivot && j >= i);
+        do i++; while(i <= right && getRRoot(i) < pivot/* && i < right + 1*/);
+        do j--; while(j >= i && getRRoot(j) > pivot/* && j >= i*/);
         if (i < j) swapR(i, j);
       } while(i < j);
       swapR(left, j);
@@ -277,7 +277,7 @@ class linkedlist // + graph
   {
     if (size == 0)
       return;
-    temp = new node<T>;
+//    temp = new node<T>;
     temp = head;
     while (temp != NULL)
     {
@@ -289,7 +289,7 @@ class linkedlist // + graph
 
   void printRoad()
   {
-    temp = new node<roads>;
+//    temp = new node<roads>;
     temp = head;
     while (temp != NULL)
     {
