@@ -90,19 +90,18 @@ void kruskal(roads *a, int numofroads, int numofcity)
       link.SUnion(root1, root2);
     }
   }
-
-
     for (i = 0; i < MST.listsize(); i++)
     {
-      roads temp = MST.get(i);
-      root1 = link.CFind(temp.cityA);
-      regions[root1].insert(temp);
+      roads* temp = new roads;
+      *temp = MST.get(i);
+      root1 = link.CFind(temp->cityA);
+      regions[root1].insert(*temp);
 
       if (!roots.find(root1))
       {
-        region* temp3 = new region;
-        temp3->root = root1;
-        roots.insert(*temp3);
+        region temp4;
+        temp4.root = root1;
+        roots.insert(temp4);
       }
     }
 
@@ -110,9 +109,8 @@ void kruskal(roads *a, int numofroads, int numofcity)
     {
       region temp2 = roots.get(i);
       roots.insertRSize(regions[temp2.root].listsize(), i);
-//      cout << regions[temp2.root].listsize() << endl;
+//cout << regions[temp2.root].listsize() << endl;
     }
-
 
     roots.qSort(0, roots.listsize()-1);
     if (roots.getFlag())
@@ -127,11 +125,7 @@ void kruskal(roads *a, int numofroads, int numofcity)
           roots.setFlag(false);
         }
       }
-/*  for (i = 0; i < numofcity; i++)
-    cout << a[i].cityA << "'s root = " << link.CFind(a[i].cityA)
-         << " and " << a[i].cityB << "'s root = " << link.CFind(a[i].cityB)
-         << endl;
-  cout << "size = " << MST.listsize() << endl; */
+
   for (i = roots.listsize()+MST.listsize(); i < numofcity; i++)
     cout << "<region>\n</region>\n";
 

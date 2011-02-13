@@ -155,14 +155,19 @@ class linkedlist // + graph
 
       temp = temp->next;
     }
-    delete temp; ////
+    delete temp; //// <=------------------------
     return false;
   }
 
   T get(int pos)
   {
     temp = new node<T>;
-    temp = head + (pos * (head->next - head));
+    temp = head;
+
+    for (int i = 0; i < pos; i++)
+      temp = temp->next;
+//    temp = head + (pos * (head->next - head));
+//cout << "pos = " << pos << " " << head->next->next->next << " and " << temp << endl;
     return temp->data;
   }
 
@@ -261,7 +266,7 @@ class linkedlist // + graph
       cout << temp->data << endl;;
       temp = temp->next;
     } 
-    delete temp; 
+//    delete temp; <--------------------------
   }
 
   void printRoad()
