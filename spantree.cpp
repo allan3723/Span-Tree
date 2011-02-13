@@ -8,7 +8,10 @@ using namespace std;
 void readInput();
 void kruskal(roads *a, int numofroads, int numofcities);
 void qSort(roads *a, const int left, const int right);
+void qSort2(roads *a, const int left, const int right);
+void qSort3(roads *a, const int left, const int right);
 void swap(roads& a, roads& b);
+bool minimum = false, maximum = false;
 
 int main()
 {
@@ -21,7 +24,7 @@ int main()
 
 void readInput()
 {
-  int numCity, numRoad, i, cityA, cityB;
+  int numCity, numRoad, i, j, k, l, cityA, cityB;
 
   cin >> numCity >> numRoad;
 
@@ -32,7 +35,34 @@ void readInput()
     oRoad[i].cityA = min(cityA, cityB);
     oRoad[i].cityB = max(cityA, cityB);
   }
+
   qSort(oRoad, 0, numRoad-1);
+
+  if (minimum)
+    for (i = 0; i < numRoad-1; i++)
+    {
+      if (oRoad[i].length == oRoad[i+1].length)
+      {
+        j = i;
+        while(oRoad[i].length == oRoad[i+1].length) i++;
+
+        qSort2(oRoad, j, i);
+        minimum = false;
+
+        if (maximum)
+          for (k = j; k < i; k++)
+          {
+            if (oRoad[k].cityA == oRoad[k+1].cityA)
+            {
+              l = k;
+              while (oRoad[k].cityA == oRoad[k+1].cityA) k++;
+
+              qSort3(oRoad, l, k);
+              maximum = false;
+            }
+          }
+      }
+    }
 
   kruskal(oRoad, numRoad, numCity);
 
@@ -85,6 +115,18 @@ void kruskal(roads *a, int numofroads, int numofcity)
 
 
     roots.qSort(0, roots.listsize()-1);
+    if (roots.getFlag())
+      for (i = 0; i < roots.listsize()-1; i++)
+      {
+        if (roots.getRSize(i) == roots.getRSize(i+1))
+        {
+          int j = i;
+          while (roots.getRSize(i) == roots.getRSize(i+1)) i++;
+          
+          roots.qSort2(j, i);
+          roots.setFlag(false);
+        }
+      }
 /*  for (i = 0; i < numofcity; i++)
     cout << a[i].cityA << "'s root = " << link.CFind(a[i].cityA)
          << " and " << a[i].cityB << "'s root = " << link.CFind(a[i].cityB)
@@ -114,35 +156,14 @@ void qSort(roads *a, const int left, const int right) //quicksort from book
       do 
       {
         i++;
-        if (a[i].length == pivot && i != left)
-        {
-//          cout << a[i].length << endl;
-//          cout << "a[i].cityA = " << a[i].cityA << " b = " << a[i].cityB 
-//               << " pivotA = " << a[left].cityA << " pB = " << a[left].cityB
-//               << endl;
-          if (min(a[i].cityA, a[i].cityB) > min(a[left].cityA, a[left].cityB))
-            swap(a[i], a[left]);
-
-          else
-            if (max(a[i].cityA, a[i].cityB) > max(a[left].cityA, a[left].cityB))
-              swap(a[i], a[left]);
-        }
+        if (a[i].length == pivot)
+          minimum = true;
       } while (a[i].length < pivot);
       do
       { 
         j--;
-        if (a[j].length == pivot && j != left)
-        {
-//          cout << "a[j].cityA = " << a[j].cityA << " b = " << a[j].cityB 
-//               << " pivotA = " << a[left].cityA << " pB = " << a[left].cityB
-//               << endl;
-//          cout << a[j].length << endl;
-          if (min(a[j].cityA, a[j].cityB) > min(a[left].cityA, a[left].cityB))
-            swap(a[j], a[left]);
-          else
-            if (max(a[j].cityA, a[i].cityB) > max(a[left].cityA, a[left].cityB))
-              swap(a[j], a[left]);
-        } 
+        if (a[j].length == pivot)
+          minimum = true;
       } while (a[j].length > pivot);
       if (i<j) swap(a[i], a[j]);
     } while (i < j);
@@ -151,6 +172,62 @@ void qSort(roads *a, const int left, const int right) //quicksort from book
 
     qSort(a, left, j-1);
     qSort(a, j+1, right);
+  }
+}
+
+
+void qSort2(roads *a, const int left, const int right) //quicksort from book
+{ 
+  if(left<right)
+  {
+    int i = left,
+        j = right + 1,
+        pivot = a[left].cityA;
+
+    do
+    {
+      do 
+      {
+        i++;
+        if (a[i].cityA == pivot)
+          maximum = true;
+      } while (a[i].cityA < pivot);
+      do
+      { 
+        j--;
+        if (a[j].cityA == pivot)
+          maximum = true;
+      } while (a[j].cityA > pivot);
+      if (i<j) swap(a[i], a[j]);
+    } while (i < j);
+
+    swap(a[left], a[j]);
+
+    qSort2(a, left, j-1);
+    qSort2(a, j+1, right);
+  }
+}
+
+
+void qSort3(roads *a, const int left, const int right) //quicksort from book
+{ 
+  if(left<right)
+  {
+    int i = left,
+        j = right + 1,
+        pivot = a[left].cityB;
+
+    do
+    {
+      do i++; while (a[i].cityB < pivot);
+      do j--; while (a[j].cityB > pivot);
+      if (i<j) swap(a[i], a[j]);
+    } while (i < j);
+
+    swap(a[left], a[j]);
+
+    qSort3(a, left, j-1);
+    qSort3(a, j+1, right);
   }
 }
 

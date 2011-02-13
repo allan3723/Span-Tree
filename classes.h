@@ -93,6 +93,7 @@ class linkedlist // + graph
   linkedlist()
   {
     size = 0;
+    flag = false;
   }
 
   void insert(T data)
@@ -209,16 +210,14 @@ class linkedlist // + graph
           i++; 
           if (getRSize(i) == getRSize(left) && i != left)
           {
-            if (getRRoot(i) > getRRoot(left))
-              swapR(i, left);
+            setFlag(true);
           }
         } while(getRSize(i) < pivot && i < right+1);
         do 
         {
           j--; 
           if (getRSize(j) == getRSize(left) && j != left)
-            if (getRRoot(j) > getRRoot(left))
-              swapR(j, left);
+            setFlag(true);
         } while(getRSize(j) > pivot && j >= i);
 
         if (i < j) swapR(i, j);
@@ -227,6 +226,27 @@ class linkedlist // + graph
 
       qSort(left, j-1);
       qSort(j+1, right);
+    } //if
+  }
+
+  void qSort2(const int left, const int right) //quick sort for region
+  {
+    if (left < right)
+    {
+      int i = left,
+          j = right + 1,
+          pivot = getRRoot(left);
+
+      do
+      {
+        do i++; while(getRRoot(i) < pivot && i < right+1);
+        do j--; while(getRRoot(j) > pivot && j >= i);
+        if (i < j) swapR(i, j);
+      } while(i < j);
+      swapR(left, j);
+
+      qSort2(left, j-1);
+      qSort2(j+1, right);
     } //if
   }
 
@@ -257,8 +277,14 @@ class linkedlist // + graph
       temp = temp->next;
     }
   }
+  
+  void setFlag(bool something) {flag = something;}
+
+  bool getFlag() {return flag;} 
+ 
   private:
     node<T> *head, *temp, *current;
     int size;
+    bool flag;
 };
 
