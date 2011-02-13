@@ -113,6 +113,7 @@ void kruskal(roads *a, int numofroads, int numofcity)
     }
 
     roots.qSort(0, roots.listsize()-1);
+
     if (roots.getFlag())
       for (i = 0; i < roots.listsize()-1; i++)
       {

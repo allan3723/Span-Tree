@@ -117,10 +117,13 @@ class linkedlist // + graph
     }
   }
 
-  void insertRSize(int size, int pos)
+  void insertRSize(int size, int pos) //<--------------------------
   {
     temp = new node<T>;
-    temp = head + (pos * (head->next - head));
+    temp = head;
+    for (int i = 0; i < pos; i++)
+      temp = temp->next;
+//    temp = head + (pos * (head->next - head));
     (temp->data).size = size;
   }
 
@@ -159,7 +162,7 @@ class linkedlist // + graph
     return false;
   }
 
-  T get(int pos)
+  T get(int pos) // <---------------------
   {
     temp = new node<T>;
     temp = head;
@@ -167,31 +170,46 @@ class linkedlist // + graph
     for (int i = 0; i < pos; i++)
       temp = temp->next;
 //    temp = head + (pos * (head->next - head));
-//cout << "pos = " << pos << " " << head->next->next->next << " and " << temp << endl;
+//cout << "pos = " << pos << " " << head->next->next->next << " and " 
+//     << temp << " and " << head+pos << endl;
     return temp->data;
   }
 
-  int getRSize(int pos)
+  int getRSize(int pos) // <----------------------
   {
     temp = new node<T>;
-    temp = head+(pos * (head->next - head));
-    return temp->data.size;
+    temp = head;
+    for (int i = 0; i < pos; i++)
+      temp = temp->next;
+
+//    temp = head+(pos * (head->next - head));
+    return (temp->data).size;
   }
 
-  int getRRoot(int pos)
+  int getRRoot(int pos) // <---------------------------
   {
     temp = new node<T>;
-    temp = head+(pos*(head->next - head));
+    temp = head;
+    for (int i = 0; i < pos; i++)
+      temp = temp->next;
+//    temp = head+(pos*(head->next - head));
     return temp->data.root;
   }
 
-  void swapR(int i, int j) //specifically for region
+  void swapR(int i, int j) //specifically for region <-------------------
   {
     node<region>* node2 = new node<T>;
     node<region>* node1 = new node<T>;
     temp = new node<T>;
-    node1 = head+(i*(head->next - head));
-    node2 = head+(j*(head->next - head));
+    node1 = head;
+    for (int k = 0; k < i; k++)
+      node1 = node1->next;
+    node2 = head;
+    for (int k = 0; k < j; k++)
+      node2 = node2->next;
+
+//    node1 = head+(i*(head->next - head));
+//    node2 = head+(j*(head->next - head));
 
     temp->data.root = node1->data.root; temp->data.size = node1->data.size;
     node1->data.root = node2->data.root; node1->data.size = node2->data.size;
@@ -217,7 +235,7 @@ class linkedlist // + graph
           {
             setFlag(true);
           }
-        } while(getRSize(i) < pivot && i < right+1);
+        } while(getRSize(i) < pivot && i < right);
         do 
         {
           j--; 
@@ -244,7 +262,7 @@ class linkedlist // + graph
 
       do
       {
-        do i++; while(getRRoot(i) < pivot && i < right+1);
+        do i++; while(getRRoot(i) < pivot && i < right);
         do j--; while(getRRoot(j) > pivot && j >= i);
         if (i < j) swapR(i, j);
       } while(i < j);
